@@ -164,7 +164,7 @@ func buildCells(quote Quote, position Position, config c.Config, styles c.Styles
 			{Text: styles.TextBold(quote.Symbol), Width:10, Align: grid.Left},
 			{Text: genInstrumentName(quote, styles), Width: 30, Align: grid.Left},
 			{Text: textMarketState(quote, styles), Width: 4, Align: grid.Left},
-			{Text: genPrice(quote, styles), Width: 10, Align: grid.Left},
+			{Text: genPrice(quote, styles), Width: 8, Align: grid.Left},
 			{Text: genPriceChange(quote, styles), Width: 10, Align: grid.Left},
 			{Text: genPriceChangePct(quote, styles), Width: 10, Align: grid.Left},
 			{Text: genHighLow(quote, styles), Width: 23, Align: grid.Left},
@@ -305,7 +305,7 @@ func genHighLow(quote Quote, styles c.Styles) string {
 	intercept := l
 	slope := 1.0/(h-l)
 	lhnorm := (p-intercept) * slope
-	return styles.Text("["+PriceToString(l) + " " + PriceToString(h)+"] " + strconv.FormatFloat(lhnorm, 'f', 2, 64))
+	return styles.Text(strconv.FormatFloat(lhnorm, 'f', 2, 64) + " ["+PriceToString(l) + " " + PriceToString(h)+"]")
 }
 
 func quoteChangeText(change float64, changePercent float64, isVariablePrecision bool, styles c.Styles) string {
