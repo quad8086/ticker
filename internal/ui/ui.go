@@ -11,7 +11,6 @@ import (
 	"github.com/achannarasappa/ticker/internal/ui/component/watchlist"
 
 	. "github.com/achannarasappa/ticker/internal/ui/util"
-	. "github.com/achannarasappa/ticker/internal/ui/util/text"
 
 	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
@@ -20,10 +19,6 @@ import (
 var (
 	styleLogo = NewStyle("#ffffd7", "#ff8700", true)
 	styleHelp = NewStyle("#4e4e4e", "", true)
-)
-
-const (
-	footerHeight = 1
 )
 
 type Model struct {
@@ -101,7 +96,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.WindowSizeMsg:
 		m.watchlist.Width = msg.Width
 		m.summary.Width = msg.Width
-		viewportHeight := msg.Height - m.headerHeight - footerHeight
+		viewportHeight := msg.Height - m.headerHeight
 
 		if !m.ready {
 			m.viewport = viewport.Model{Width: msg.Width, Height: viewportHeight}
@@ -142,34 +137,7 @@ func (m Model) View() string {
 		viewSummary += m.summary.View()
 	}
 
-	return viewSummary + "\n" +
-		m.viewport.View() + "\n" +
-		footer(m.viewport.Width, m.lastUpdateTime)
-
-}
-
-func footer(width int, time string) string {
-
-	if width < 80 {
-		return styleLogo(" ticker ")
-	}
-
-	return Line(
-		width,
-		Cell{
-			Width: 10,
-			Text:  styleLogo(" ticker "),
-		},
-		Cell{
-			Width: 36,
-			Text:  styleHelp("q: exit ↑: scroll up ↓: scroll down"),
-		},
-		Cell{
-			Text:  styleHelp("↻  " + time),
-			Align: RightAlign,
-		},
-	)
-
+	return viewSummary + "\n" +	m.viewport.View()
 }
 
 func getVerticalMargin(config c.Config) int {
