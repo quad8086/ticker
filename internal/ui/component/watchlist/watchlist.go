@@ -163,12 +163,14 @@ func buildCells(quote Quote, position Position, config c.Config, styles c.Styles
 		return []grid.Cell{
 			{Text: styles.TextBold(quote.Symbol), Width:10, Align: grid.Left},
 			{Text: genInstrumentName(quote, styles), Width: 30, Align: grid.Left},
-			{Text: textMarketState(quote, styles), Width: 4, Align: grid.Left},
-			{Text: genPrice(quote, styles), Width: 8, Align: grid.Left},
+			{Text: textMarketState(quote, styles), Width: 2, Align: grid.Left},
+			{Text: genPrice(quote, styles), Width: 7, Align: grid.Left},
 			{Text: genPriceChange(quote, styles), Width: 10, Align: grid.Left},
 			{Text: genPriceChangePct(quote, styles), Width: 10, Align: grid.Left},
-			{Text: genHighLow(quote, styles), Width: 23, Align: grid.Left},
-			{Text: ConvertMktcap(quote.MarketCap), Width: 8, Align: grid.Left},
+			{Text: genHighLow(quote, styles), Width: 20, Align: grid.Left},
+			{Text: ConvertToHuman(quote.Volume, 2), Width: 8, Align: grid.Left},
+			{Text: ConvertToHuman(quote.ADV3M, 0), Width: 8, Align: grid.Left},
+			{Text: ConvertToHuman(quote.MarketCap, 0), Width: 8, Align: grid.Left},
 		}
 	}
 
@@ -279,6 +281,10 @@ func genInstrumentName(quote Quote, styles c.Styles) string {
 
 func genPrice(quote Quote, styles c.Styles) string {
 	return styles.Text(ConvertFloatToString(quote.Price, quote.IsVariablePrecision))
+}
+
+func genVolume(quote Quote, styles c.Styles) string {
+	return styles.Text(ConvertFloatToString(quote.Volume, quote.IsVariablePrecision))
 }
 
 func genPriceChange(quote Quote, styles c.Styles) string {
@@ -456,12 +462,12 @@ func formatTag(text string, style c.Styles) string {
 
 func textMarketState(q Quote, styles c.Styles) string {
 	if q.IsRegularTradingSession {
-		return styles.TextLabel(" ●  ")
+		return styles.TextLabel("●")
 	}
 
 	if !q.IsRegularTradingSession && q.IsActive {
-		return styles.TextLabel(" ○  ")
+		return styles.TextLabel("○")
 	}
 
-	return ""
+	return " "
 }

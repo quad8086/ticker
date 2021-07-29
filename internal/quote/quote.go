@@ -35,6 +35,9 @@ type ResponseQuote struct {
 	FiftyTwoWeekLow            float64 `json:"fiftyTwoWeekLow"`
 	QuoteType                  string  `json:"quoteType"`
 	MarketCap                  float64 `json:"marketCap"`
+	Volume                     float64 `json:"regularMarketVolume"`
+	ADV10                      float64 `json:"averageDailyVolume10Day"`
+	ADV3M                      float64 `json:"averageDailyVolume3Month"`
 }
 
 type Quote struct {
